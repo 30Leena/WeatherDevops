@@ -1,0 +1,44 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url('https://source.unsplash.com/1600x900/?world,globe') no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+}
+
+.app-container {
+  text-align: center;
+}
+
+.navbar {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar h1 {
+  color: white;
+  margin: 0;
+}
+
+.nav-links a {
+  color: white;
+  margin-left: 15px;
+  text-decoration: none;
+}
+
+.home-container {
+  margin-top: 50px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+.dropdown-container {
+  width: 300px;
+  margin: 20px auto;
+}

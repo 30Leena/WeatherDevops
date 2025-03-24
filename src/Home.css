@@ -1,0 +1,90 @@
+/* Reset default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Background styling */
+.home-container {
+    background-image: url("./clouds-3488632_1280.jpg");
+    /* Relative path */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-color: #1eddff;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: rgb(43, 226, 165);
+    text-align: center;
+}
+
+/* Title styling */
+h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+    margin-bottom: 20px;
+}
+
+/* Form styling */
+.weather-form input {
+    padding: 10px;
+    margin: 10px;
+    width: 250px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.weather-form button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.weather-form button:hover {
+    background-color: #45a049;
+}
+
+/* Weather information container */
+.weather-container {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(145deg, #87ceeb, #f0f8ff);
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Text inside weather container */
+.weather-container h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.weather-container p {
+    font-size: 1.2rem;
+    margin: 5px 0;
+}
+
+/* Error message styling */
