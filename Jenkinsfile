@@ -4,17 +4,17 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/30Leena/WeatherDevops.git'
+                git branch: 'main', url: 'https://github.com/30Leena/WeatherDevops.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
                 dir('backend') {
-                    bat 'npm install'
+                    sh 'npm install'
                 }
                 dir('frontend') {
-                    bat 'npm install'
+                    sh 'npm install'
                 }
             }
         }
@@ -22,7 +22,7 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 dir('frontend') {
-                    bat 'npm run build'
+                    sh 'npm run build'
                 }
             }
         }
@@ -30,10 +30,11 @@ pipeline {
         stage('Start Backend') {
             steps {
                 dir('backend') {
-                    bat 'start cmd /c "npm start"'
+                    sh 'npm start &'
                 }
             }
         }
     }
 }
+
  
