@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
@@ -18,6 +19,24 @@ function App() {
             </Routes>
         </>
     );
+=======
+import React from "react";
+import Navbar from "./Components/Navbar";
+import Home from "./Components/Home";
+import Footer from "./Components/Footer";
+import WeatherData from "./Components/WeatherData";
+
+function App() {
+  return (
+    <div>
+      <Navbar />
+      <Home />
+      <h1>Weather Dashboard</h1>
+      <WeatherData />
+      <Footer />
+    </div>
+  );
+>>>>>>> e870f4649f5ac3480b9b4f9521362c9850386fcc
 }
 
 export default App;
@@ -27,5 +46,8 @@ export default App;
 
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> e870f4649f5ac3480b9b4f9521362c9850386fcc
