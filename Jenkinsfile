@@ -8,13 +8,18 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Install Backend Dependencies') {
             steps {
                 dir('backend') {
-                    sh 'npm install'
+                    bat 'npm install'
                 }
+            }
+        }
+
+        stage('Install Frontend Dependencies') {
+            steps {
                 dir('frontend') {
-                    sh 'npm install'
+                    bat 'npm install'
                 }
             }
         }
@@ -22,7 +27,7 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 dir('frontend') {
-                    sh 'npm run build'
+                    bat 'npm run build'
                 }
             }
         }
@@ -30,11 +35,9 @@ pipeline {
         stage('Start Backend') {
             steps {
                 dir('backend') {
-                    sh 'npm start &'
+                    bat 'start cmd /c "npm start"'
                 }
             }
         }
-    }
-}
 
  
