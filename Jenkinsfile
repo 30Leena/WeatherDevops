@@ -1,24 +1,12 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs 'nodejs' // This matches your configured tool name
-    }
-
     environment {
-        FRONTEND_DIR = 'frontend'
-        BACKEND_DIR = 'backend'
+        NODE_ENV = 'production'
     }
 
     stages {
-        stage('Clean Workspace') {
-            steps {
-                echo ' Cleaning workspace...'
-                deleteDir()
-            }
-        }
-
-        stage('Git Checkout') {
+        stage('Clone Repo') {
             steps {
                 git 'https://github.com/30Leena/WeatherDevops.git'
             }
@@ -26,40 +14,31 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                dir("${env.FRONTEND_DIR}") {
-                    echo ' Installing frontend dependencies...'
-                    bat 'npm install'
-                }
-                dir("${env.BACKEND_DIR}") {
-                    echo ' Installing backend dependencies...'
-                    bat 'npm install'
-                }
+                sh 'npm install'
             }
         }
 
-        stage('Build Frontend') {
+        stage('Build Project') {
             steps {
-                dir("${env.FRONTEND_DIR}") {
-                    echo '⚙️ Building frontend...'
-                    bat 'npm run build'
-                }
+                sh 'npm run build'
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy to GitHub Pages') {
             steps {
-                echo ' Deployment step would go here.'
+                sh 'npm run deploy'
             }
         }
     }
 
     post {
-        failure {
-            echo ' Pipeline failed. Please check the logs.'
-        }
         success {
-            echo ' Pipeline completed successfully!'
+            echo ' Deployment successful!'
+        }
+        failure {
+            echo ' Deployment failed.'
         }
     }
 }
+
 
