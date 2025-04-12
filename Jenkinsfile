@@ -1,14 +1,19 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'nodejs' 
+    }
+
     environment {
-        NODE_OPTIONS = "--openssl-legacy-provider"
+        CI = 'false'
+        GH_TOKEN = credentials('github_token') 
     }
 
     stages {
-        stage('Clone Repo') {
+        stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/30Leena/WeatherDevops.git'
+                git url: 'https://github.com/30Leena/WeatherDevops.git', branch: 'main', credentialsId: 'github_token'
             }
         }
 
@@ -26,6 +31,8 @@ pipeline {
 
         stage('Deploy to GitHub Pages') {
             steps {
+                bat 'git config --global user.email "you@example.com"' 
+                bat 'git config --global user.name "30Leena"'           
                 bat 'npm run deploy'
             }
         }
@@ -33,12 +40,10 @@ pipeline {
 
     post {
         failure {
-            echo ' Deployment failed.'
+            echo 'Build failed!'
         }
         success {
-            echo ' Successfully Deployed to GitHub Pages!'
+            echo 'Build and deployment successful!'
         }
     }
 }
-
-
