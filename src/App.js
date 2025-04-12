@@ -1,3 +1,4 @@
+// src/App.js
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
@@ -5,6 +6,7 @@ import Browse from './pages/Browse';
 import Forecast from './pages/Forecast';
 import About from './pages/About';
 import Header from './components/Header';
+import './App.css'; // import your styles
 
 function App() {
   return (

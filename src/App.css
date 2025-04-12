@@ -1,44 +1,30 @@
+/* App.css */
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: url('https://source.unsplash.com/1600x900/?world,globe') no-repeat center center fixed;
+  background-image: url('./clouds-3488632_1280.jpg');
   background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   color: white;
 }
 
-.app-container {
-  text-align: center;
-}
-
+/* Navigation bar styles */
 .navbar {
-  background: rgba(0, 0, 0, 0.7);
-  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 15px 30px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  gap: 20px;
 }
 
-.navbar h1 {
-  color: white;
-  margin: 0;
-}
-
-.nav-links a {
-  color: white;
-  margin-left: 15px;
+.navbar a {
   text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
-.home-container {
-  margin-top: 50px;
-  text-align: center;
-}
-
-h2 {
-  font-size: 24px;
-}
-
-.dropdown-container {
-  width: 300px;
-  margin: 20px auto;
+.navbar a:hover {
+  color: #ffd700;
 }

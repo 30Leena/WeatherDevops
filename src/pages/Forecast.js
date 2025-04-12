@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import './Forecast.css'; // assuming you'll put styles here or use inline
 
 function Forecast() {
     const [condition, setCondition] = useState('');
@@ -25,22 +26,19 @@ function Forecast() {
         }
     }, [location.search]);
 
+    const params = new URLSearchParams(location.search);
+    const state = params.get('state');
+    const city = params.get('city');
+
     return (
-        <div>
-            <h2>Forecast</h2>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            {condition && <p>Weather condition: {condition}</p>}
+        <div className="forecast-background">
+            <div className="forecast-container">
+                <h2>Forecast for {city}, {state}</h2>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                {condition && <p>Weather condition: {condition}</p>}
+            </div>
         </div>
     );
 }
 
 export default Forecast;
-
-
-
-
-
-
-
-
-

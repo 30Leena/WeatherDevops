@@ -31,37 +31,66 @@ function Browse() {
     };
 
     return (
-        <div>
-            <h2>Browse Weather</h2>
-            <label>State: </label>
-            <select value={selectedState} onChange={e => setSelectedState(e.target.value)}>
-                <option value="">Select a state</option>
-                {states.map((s, idx) => (
-                    <option key={idx} value={s.state}>{s.state}</option>
-                ))}
-            </select>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '100vh',
+            background: 'linear-gradient(to right, #c6ffdd, #fbd786, #f7797d)',
+            fontFamily: 'Arial, sans-serif',
+            padding: '2rem'
+        }}>
+            <h2 style={{ marginBottom: '2rem', color: '#333' }}>Browse Weather</h2>
 
-            <label> City: </label>
-            <select value={selectedCity} onChange={e => setSelectedCity(e.target.value)}>
-                <option value="">Select a city</option>
-                {cities.map((c, idx) => (
-                    <option key={idx} value={c.city}>{c.city}</option>
-                ))}
-            </select>
+            <div style={{ marginBottom: '1rem' }}>
+                <label style={{ marginRight: '0.5rem' }}>State:</label>
+                <select
+                    value={selectedState}
+                    onChange={e => setSelectedState(e.target.value)}
+                    style={{ padding: '0.5rem', borderRadius: '5px', border: '1px solid #ccc' }}
+                >
+                    <option value="">Select a state</option>
+                    {states.map((s, idx) => (
+                        <option key={idx} value={s.state}>{s.state}</option>
+                    ))}
+                </select>
+            </div>
 
-            <button onClick={handleForecast}>Get Forecast</button>
+            <div style={{ marginBottom: '2rem' }}>
+                <label style={{ marginRight: '0.5rem' }}>City:</label>
+                <select
+                    value={selectedCity}
+                    onChange={e => setSelectedCity(e.target.value)}
+                    style={{ padding: '0.5rem', borderRadius: '5px', border: '1px solid #ccc' }}
+                >
+                    <option value="">Select a city</option>
+                    {cities.map((c, idx) => (
+                        <option key={idx} value={c.city}>{c.city}</option>
+                    ))}
+                </select>
+            </div>
+
+            <button
+                onClick={handleForecast}
+                style={{
+                    padding: '10px 20px',
+                    fontSize: '1rem',
+                    backgroundColor: '#007bff',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 6px rgba(0,0,0,0.2)'
+                }}
+            >
+                Get Forecast
+            </button>
         </div>
     );
 }
 
 export default Browse;
-
-
-
-
-
-
-
 
 
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../Home.css"; // Corrected import path
+import "../Home.css";
 
 const Home = () => {
     const [state, setState] = useState("");
@@ -7,7 +7,7 @@ const Home = () => {
     const [weather, setWeather] = useState(null);
     const [error, setError] = useState("");
 
-    // Handle Input Change
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setError(""); // Clear error on input
@@ -15,9 +15,9 @@ const Home = () => {
         if (name === "city") setCity(value);
     };
 
-    // Function to Fetch Weather
+
     const fetchWeather = async (e) => {
-        e.preventDefault(); // Prevent page refresh
+        e.preventDefault();
         if (!state || !city) {
             setError("Please enter both state and city.");
             return;
@@ -44,7 +44,7 @@ const Home = () => {
 
     return (
         <div className="home-container">
-            <h1>🌎 Weather Dashboard</h1>
+            <h1> Weather Dashboard</h1>
 
             <form className="weather-form" onSubmit={fetchWeather}>
                 <input

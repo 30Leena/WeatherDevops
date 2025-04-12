@@ -1,9 +1,9 @@
-// backend/routes/weather.js
+
 const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 
-// GET all unique states
+
 router.get('/states', async (req, res) => {
     try {
         const result = await pool.query('SELECT DISTINCT state FROM location');
@@ -14,7 +14,7 @@ router.get('/states', async (req, res) => {
     }
 });
 
-// GET cities for a selected state
+
 router.get('/cities', async (req, res) => {
     try {
         const { state } = req.query;
