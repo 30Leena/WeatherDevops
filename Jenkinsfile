@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'nodejs' 
+        nodejs 'nodejs'  
     }
 
     environment {
@@ -31,8 +31,9 @@ pipeline {
 
         stage('Deploy to GitHub Pages') {
             steps {
-                bat 'git config --global user.email "you@example.com"' 
-                bat 'git config --global user.name "30Leena"'           
+                bat 'git config --global user.email "leena.velan@gmail.com"'
+                bat 'git config --global user.name "30Leena"'
+                
                 bat 'npm run deploy'
             }
         }
