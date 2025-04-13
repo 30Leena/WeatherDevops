@@ -1,4 +1,4 @@
-pipeline { 
+pipeline {
     agent any
 
     environment {
@@ -33,4 +33,20 @@ pipeline {
                         git config --global user.email "%GIT_USER_EMAIL%"
                         git config --global credential.helper store
                         echo https://%GITHUB_USER%:%GITHUB_TOKEN%@github.com > %USERPROFILE%\\.git-credentials
-                        npm run
+                        npm run deploy
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Build process completed.'
+        }
+        failure {
+            echo 'Build failed!'
+        }
+    }
+}
+
