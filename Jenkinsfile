@@ -6,9 +6,9 @@ pipeline {
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('Checkout SCM') {
             steps {
-                git credentialsId: 'github_token', url: 'https://github.com/30Leena/WeatherDevops.git', branch: 'main'
+                checkout scm
             }
         }
 
@@ -26,32 +26,27 @@ pipeline {
 
         stage('Deploy to GitHub Pages') {
             environment {
-                GIT_USER = "30Leena"
-                GIT_EMAIL = "leena.velan@gmail.com"
+                GIT_AUTHOR_NAME = '30Leena'
+                GIT_AUTHOR_EMAIL = 'leena.velan@gmail.com'
+                GIT_COMMITTER_NAME = '30Leena'
+                GIT_COMMITTER_EMAIL = 'leena.velan@gmail.com'
             }
             steps {
-                withEnv(["GH_TOKEN=${GH_TOKEN}"]) {
-                    timeout(time: 5, unit: 'MINUTES') {
-                        bat 'git config --global user.email "%GIT_EMAIL%"'
-                        bat 'git config --global user.name "%GIT_USER%"'
-                        // IMPORTANT: Set correct repo URL here
-                        bat 'git remote set-url origin https://%GH_TOKEN%@github.com/30Leena/WeatherDevops.git'
-                        bat 'npm run deploy'
-                    }
+                bat 'git config --global user.email "leena.velan@gmail.com"'
+                bat 'git config --global user.name "30Leena"'
+                withEnv(["GH_TOKEN=${env.GH_TOKEN}"]) {
+                    bat 'npm run deploy'
                 }
             }
         }
     }
 
     post {
-        failure {
-            echo 'Build failed!'
-        }
         success {
-            echo 'Build and deployment succeeded!'
+            echo ' Deployment successful!'
+        }
+        failure {
+            echo ' Build failed!'
         }
     }
 }
-
-
-
