@@ -1,21 +1,14 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs 'nodejs' 
-    }
-
     environment {
-        CI = 'false'
         GH_TOKEN = credentials('github_token') 
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                git url: 'https://github.com/30Leena/WeatherDevops.git',
-                    branch: 'main',
-                    credentialsId: 'github_token'
+                git credentialsId: 'github_token', url: 'https://github.com/30Leena/WeatherDevops.git', branch: 'main'
             }
         }
 
@@ -32,12 +25,19 @@ pipeline {
         }
 
         stage('Deploy to GitHub Pages') {
+            environment {
+                GIT_USER = "30Leena"
+                GIT_EMAIL = "leena.velan@gmail.com"
+            }
             steps {
-                timeout(time: 5, unit: 'MINUTES') {
-                    bat 'git config --global user.email "leena.velan@gmail.com"'
-                    bat 'git config --global user.name "30Leena"'
-                    bat 'git remote set-url origin https://%GH_TOKEN%@github.com/30Leena/WeatherPipeline.git'
-                    bat 'npm run deploy'
+                withEnv(["GH_TOKEN=${GH_TOKEN}"]) {
+                    timeout(time: 5, unit: 'MINUTES') {
+                        bat 'git config --global user.email "%GIT_EMAIL%"'
+                        bat 'git config --global user.name "%GIT_USER%"'
+                        // IMPORTANT: Set correct repo URL here
+                        bat 'git remote set-url origin https://%GH_TOKEN%@github.com/30Leena/WeatherDevops.git'
+                        bat 'npm run deploy'
+                    }
                 }
             }
         }
@@ -45,12 +45,13 @@ pipeline {
 
     post {
         failure {
-            echo ' Build failed!'
+            echo 'Build failed!'
         }
         success {
-            echo ' Build and deployment successful!'
+            echo 'Build and deployment succeeded!'
         }
     }
 }
+
 
 
