@@ -2,18 +2,20 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'nodejs'
+        nodejs 'nodejs' 
     }
 
     environment {
         CI = 'false'
-        GH_TOKEN = credentials('github_token')
+        GH_TOKEN = credentials('github_token') 
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                git url: 'https://github.com/30Leena/WeatherDevops.git', branch: 'main', credentialsId: 'github_token'
+                git url: 'https://github.com/30Leena/WeatherDevops.git',
+                    branch: 'main',
+                    credentialsId: 'github_token'
             }
         }
 
@@ -43,11 +45,12 @@ pipeline {
 
     post {
         failure {
-            echo 'Build failed!'
+            echo ' Build failed!'
         }
         success {
-            echo 'Build and deployment successful!'
+            echo ' Build and deployment successful!'
         }
     }
 }
+
 
