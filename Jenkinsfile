@@ -27,12 +27,12 @@ pipeline {
 
         stage('Deploy to GitHub Pages') {
             steps {
-                withCredentials([string(credentialsId: 'github_token', variable: 'GITHUB_TOKEN')]) {
+                withCredentials([usernamePassword(credentialsId: 'github_token', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_TOKEN')]) {
                     bat """
                         git config --global user.name "%GIT_USER_NAME%"
                         git config --global user.email "%GIT_USER_EMAIL%"
-                        set GITHUB_TOKEN=%GITHUB_TOKEN%
-                        npm run deploy
+                        set GH_TOKEN=%GITHUB_TOKEN%
+                        npm run deploy -- --repo=https://%GITHUB_USER%:%GH_TOKEN%@github.com/30Leena/WeatherDevops.git
                     """
                 }
             }
