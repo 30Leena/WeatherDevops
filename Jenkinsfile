@@ -1,4 +1,4 @@
-pipeline {
+pipeline { 
     agent any
 
     environment {
@@ -31,20 +31,6 @@ pipeline {
                     bat """
                         git config --global user.name "%GIT_USER_NAME%"
                         git config --global user.email "%GIT_USER_EMAIL%"
-                        set GH_TOKEN=%GITHUB_TOKEN%
-                        npm run deploy -- --repo=https://%GITHUB_USER%:%GH_TOKEN%@github.com/30Leena/WeatherDevops.git
-                    """
-                }
-            }
-        }
-    }
-
-    post {
-        always {
-            echo 'Build process completed.'
-        }
-        failure {
-            echo 'Build failed!'
-        }
-    }
-}
+                        git config --global credential.helper store
+                        echo https://%GITHUB_USER%:%GITHUB_TOKEN%@github.com > %USERPROFILE%\\.git-credentials
+                        npm run
