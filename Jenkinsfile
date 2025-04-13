@@ -2,12 +2,12 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'nodejs'  
+        nodejs 'nodejs'
     }
 
     environment {
         CI = 'false'
-        GH_TOKEN = credentials('github_token') 
+        GH_TOKEN = credentials('github_token')
     }
 
     stages {
@@ -31,10 +31,12 @@ pipeline {
 
         stage('Deploy to GitHub Pages') {
             steps {
-                bat 'git config --global user.email "leena.velan@gmail.com"'
-                bat 'git config --global user.name "30Leena"'
-                
-                bat 'npm run deploy'
+                timeout(time: 5, unit: 'MINUTES') {
+                    bat 'git config --global user.email "leena.velan@gmail.com"'
+                    bat 'git config --global user.name "30Leena"'
+                    bat 'git remote set-url origin https://%GH_TOKEN%@github.com/30Leena/WeatherPipeline.git'
+                    bat 'npm run deploy'
+                }
             }
         }
     }
@@ -48,3 +50,4 @@ pipeline {
         }
     }
 }
+
