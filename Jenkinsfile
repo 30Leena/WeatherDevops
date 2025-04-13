@@ -1,4 +1,4 @@
-pipeline {
+pipeline { 
     agent any
 
     environment {
@@ -33,7 +33,20 @@ pipeline {
                         git config --global user.email "%GIT_USER_EMAIL%"
                         git config --global credential.helper store
                         echo https://%GITHUB_USER%:%GITHUB_TOKEN%@github.com > %USERPROFILE%\\.git-credentials
-                        npm run deploy
+
+                        IF EXIST temp-gh-pages rd /s /q temp-gh-pages
+                        git clone https://%GITHUB_USER%:%GITHUB_TOKEN%@github.com/30Leena/WeatherDevops.git temp-gh-pages
+                        cd temp-gh-pages
+                        git checkout gh-pages || git checkout --orphan gh-pages
+
+                        for /d %%i in (*) do if /i not "%%i"==".git" rd /s /q "%%i"
+                        del /q *.*
+
+                        xcopy /E /Y /I ..\\build\\* .
+
+                        git add .
+                        git commit -m "Deploy from Jenkins"
+                        git push origin gh-pages --force
                     """
                 }
             }
@@ -49,4 +62,5 @@ pipeline {
         }
     }
 }
+
 
