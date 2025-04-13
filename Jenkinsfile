@@ -29,9 +29,9 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'github_token', variable: 'GH_TOKEN')]) {
                     bat """
-                        git config --global user.name "${env.GIT_USER_NAME}"
-                        git config --global user.email "${env.GIT_USER_EMAIL}"
-                        set GH_TOKEN=${GH_TOKEN}
+                        git config --global user.name "%GIT_USER_NAME%"
+                        git config --global user.email "%GIT_USER_EMAIL%"
+                        set GH_TOKEN=%GH_TOKEN%
                         npm run deploy -- --repo=https://%GH_TOKEN%@github.com/30Leena/WeatherDevops.git
                     """
                 }
