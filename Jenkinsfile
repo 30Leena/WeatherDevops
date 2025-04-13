@@ -2,11 +2,12 @@ pipeline {
     agent any
 
     environment {
-        GH_TOKEN = credentials('github_token') 
+        GIT_USER_NAME = '30Leena'
+        GIT_USER_EMAIL = 'leena.velan@gmail.com'
     }
 
     stages {
-        stage('Checkout SCM') {
+        stage('Checkout') {
             steps {
                 checkout scm
             }
@@ -25,28 +26,25 @@ pipeline {
         }
 
         stage('Deploy to GitHub Pages') {
-            environment {
-                GIT_AUTHOR_NAME = '30Leena'
-                GIT_AUTHOR_EMAIL = 'leena.velan@gmail.com'
-                GIT_COMMITTER_NAME = '30Leena'
-                GIT_COMMITTER_EMAIL = 'leena.velan@gmail.com'
-            }
             steps {
-                bat 'git config --global user.email "leena.velan@gmail.com"'
-                bat 'git config --global user.name "30Leena"'
-                withEnv(["GH_TOKEN=${env.GH_TOKEN}"]) {
-                    bat 'npm run deploy'
+                withCredentials([string(credentialsId: 'github_token', variable: 'GH_TOKEN')]) {
+                    bat """
+                        git config --global user.name "%GIT_USER_NAME%"
+                        git config --global user.email "%GIT_USER_EMAIL%"
+                        set GH_TOKEN=%GH_TOKEN%
+                        npm run deploy -- --repo=https://%GH_TOKEN%@github.com/30Leena/WeatherDevops.git
+                    """
                 }
             }
         }
     }
 
     post {
-        success {
-            echo ' Deployment successful!'
+        always {
+            echo 'Build process completed.'
         }
         failure {
-            echo ' Build failed!'
+            echo 'Build failed!'
         }
     }
 }
