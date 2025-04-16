@@ -4,8 +4,7 @@ function About() {
     return (
         <div
             style={{
-                backgroundImage:
-                    'url("https://images.unsplash.com/photo-1521801832997-3fbd9929ab79?auto=format&fit=crop&w=1740&q=80")',
+                backgroundImage: 'url("https://images.unsplash.com/photo-1521801832997-3fbd9929ab79?auto=format&fit=crop&w=1740&q=80")',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 minHeight: '100vh',
