@@ -10,13 +10,7 @@ function Browse() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    useEffect(() => {
-        // Redirect if not coming from Home page
-        if (location.state !== 'fromHome') {
-            alert('Please go to the Home page and click on "Check Forecast" first.');
-            navigate('/');
-        }
-    }, [location.state, navigate]);
+
 
     useEffect(() => {
         // Fetch states
