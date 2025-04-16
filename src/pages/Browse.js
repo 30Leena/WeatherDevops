@@ -8,7 +8,7 @@ function Browse() {
     const [selectedCity, setSelectedCity] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const location = useLocation();
+
 
 
 
