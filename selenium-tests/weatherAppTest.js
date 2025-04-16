@@ -1,111 +1,73 @@
-const { Builder, By, until, Alert } = require('selenium-webdriver');
+const { Builder, By, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
-const path = require('path');
 
-async function runWeatherAppTests() {
+async function runWeatherValidationTests() {
     const options = new chrome.Options();
     options.addArguments('start-maximized');
     const driver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();
 
     try {
-        // Test Case 1: Select state and city and navigate to Forecast page
-        console.log("Test Case 1: State and City Selection Test");
-        await driver.get('http://localhost:3000/'); // Home page
-        console.log("Opening Home page...");
+        // Test Case 1: No state and city selected
+        console.log("Test Case 1: No State & City Selected");
+        await driver.get('http://localhost:3000/browse');
+        await driver.wait(until.elementLocated(By.id('checkForecastBtn')), 10000);
+        const checkForecastBtn = await driver.findElement(By.id('checkForecastBtn'));
+        await checkForecastBtn.click();
 
-        // Increase timeout and ensure the button is visible
-        await driver.wait(until.elementIsVisible(driver.findElement(By.id('checkForecastBtn'))), 20000);
-        const checkForecastButton = await driver.findElement(By.id('checkForecastBtn'));
-        await checkForecastButton.click();
-        console.log("Clicking the 'Check Forecast' button...");
+        const errorDiv1 = await driver.findElement(By.id('formError'));
+        const errorText1 = await errorDiv1.getText();
+        if (errorText1.includes("Please select a state and a city")) {
+            console.log("✅ Test Case 1 Passed: Proper validation shown when nothing is selected.");
+        } else {
+            console.log("❌ Test Case 1 Failed: Validation message incorrect.");
+        }
 
-        await driver.wait(until.urlContains('Browse'), 20000); // Ensure the Browse page loads
-        console.log("Waiting for Browse page to load...");
-
-        // Select state and city in Browse page
-        await driver.wait(until.elementIsVisible(driver.findElement(By.id('stateDropdown'))), 20000);
+        // Test Case 2: Only state selected
+        console.log("\nTest Case 2: Only State Selected");
         const stateDropdown = await driver.findElement(By.id('stateDropdown'));
-        await stateDropdown.sendKeys('Karnataka');
+        await stateDropdown.sendKeys('California');
 
         const cityDropdown = await driver.findElement(By.id('cityDropdown'));
-        await cityDropdown.sendKeys('Bangalore');
+        await cityDropdown.sendKeys(''); // Reset to default if applicable
 
-        const goToForecastButton = await driver.findElement(By.id('go-to-forecast'));
-        await goToForecastButton.click();
-        console.log("State and city selected. Navigating to Forecast page...");
+        await checkForecastBtn.click();
 
-        await driver.wait(until.urlContains('forecast'), 20000); // Ensure the Forecast page loads
-
-        // Test Case 2: Redirect to Browse page if trying to access Forecast without state and city
-        console.log("Test Case 2: Redirection Test");
-        await driver.get('http://localhost:3000/forecast'); // Directly accessing Forecast page
-
-        // Wait for alert (should redirect)
-        try {
-            await driver.wait(until.alertIsPresent(), 20000);
-            const alert = await driver.switchTo().alert();
-            const alertText = await alert.getText();
-            console.log(`Alert text: ${alertText}`);
-            alert.accept();
-            console.log("Test Case 2 Passed: Redirected to Browse page successfully!");
-        } catch (error) {
-            console.log("Test Case 2 Failed: Unexpected Alert not found.");
-        }
-
-        // Test Case 3: Page Navigation Test - Re-select state and city after navigating to other pages
-        console.log("Test Case 3: Page Navigation Test");
-        await driver.get('http://localhost:3000/'); // Go back to Home page
-        await driver.wait(until.elementIsVisible(driver.findElement(By.id('checkForecastBtn'))), 20000);
-        await driver.get('http://localhost:3000/about'); // Navigate to About page
-
-        // Ensure state and city selection is reset when navigating to About page
-        await driver.wait(until.elementIsVisible(driver.findElement(By.id('stateDropdown'))), 20000);
-        const stateDropdownReset = await driver.findElement(By.id('stateDropdown'));
-        const cityDropdownReset = await driver.findElement(By.id('cityDropdown'));
-        const stateValue = await stateDropdownReset.getAttribute('value');
-        const cityValue = await cityDropdownReset.getAttribute('value');
-
-        console.log(`State after navigation: ${stateValue}, City: ${cityValue}`);
-        if (!stateValue || !cityValue) {
-            console.log("Test Case 3 Passed: State and city selection reset.");
+        const errorDiv2 = await driver.findElement(By.id('formError'));
+        const errorText2 = await errorDiv2.getText();
+        if (errorText2.includes("Please select a city")) {
+            console.log("✅ Test Case 2 Passed: Proper validation shown when only state is selected.");
         } else {
-            console.log("Test Case 3 Failed: State and city selection retained.");
+            console.log("❌ Test Case 2 Failed: Validation message incorrect.");
         }
 
-        // Test Case 4: Ensure weather condition is displayed after selecting state and city
-        console.log("Test Case 4: Forecast Display Test");
-        await driver.get('http://localhost:3000/'); // Go back to Home page
-        await driver.wait(until.elementIsVisible(driver.findElement(By.id('check-forecast'))), 20000);
-        await driver.get('http://localhost:3000/browse'); // Go to Browse page
-        await driver.wait(until.elementIsVisible(driver.findElement(By.id('state-dropdown'))), 20000);
-        await stateDropdown.sendKeys('California');
-        await cityDropdown.sendKeys('Los Angeles');
+        // Test Case 3: Only city selected
+        console.log("\nTest Case 3: Only City Selected");
+        await driver.navigate().refresh();
+        await driver.wait(until.elementLocated(By.id('checkForecastBtn')), 10000);
 
-        await goToForecastButton.click();
-        console.log("Navigating to Forecast page with selected state and city...");
+        const cityDropdownOnly = await driver.findElement(By.id('cityDropdown'));
+        await cityDropdownOnly.sendKeys('Los Angeles');
 
-        await driver.wait(until.urlContains('forecast'), 20000); // Ensure Forecast page loads
+        const checkForecastBtn3 = await driver.findElement(By.id('checkForecastBtn'));
+        await checkForecastBtn3.click();
 
-        // Verify weather data is displayed (just an example check for the existence of a forecast element)
-        await driver.wait(until.elementIsVisible(driver.findElement(By.id('weather-info'))), 20000);
-        const weatherInfo = await driver.findElement(By.id('weather-info'));
-        const weatherText = await weatherInfo.getText();
-        console.log(`Weather info displayed: ${weatherText}`);
-        if (weatherText.includes('Los Angeles')) {
-            console.log("Test Case 4 Passed: Weather information displayed correctly.");
+        const errorDiv3 = await driver.findElement(By.id('formError'));
+        const errorText3 = await errorDiv3.getText();
+        if (errorText3.includes("Please select a state")) {
+            console.log("✅ Test Case 3 Passed: Proper validation shown when only city is selected.");
         } else {
-            console.log("Test Case 4 Failed: Weather information not displayed correctly.");
+            console.log("❌ Test Case 3 Failed: Validation message incorrect.");
         }
 
-    } catch (error) {
-        // Suppress the full stack trace and just print the custom error message
-        console.log("Test failed: " + error.message);
+    } catch (err) {
+        console.log("Test failed: " + err.message);
     } finally {
         await driver.quit();
     }
 }
 
-runWeatherAppTests();
+runWeatherValidationTests();
+
 
 
 
