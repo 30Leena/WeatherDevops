@@ -7,7 +7,7 @@ async function runWeatherValidationTests() {
     const driver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();
 
     try {
-        // Test Case 1: No state and city selected
+
         console.log("Test Case 1: No State & City Selected");
         await driver.get('http://localhost:3000/browse');
         await driver.wait(until.elementLocated(By.id('checkForecastBtn')), 10000);
@@ -16,9 +16,9 @@ async function runWeatherValidationTests() {
 
         const errorText1 = await driver.findElement(By.id('formError')).getText();
         if (errorText1.includes("Please select a state and a city")) {
-            console.log("✅ Test Case 1 Passed: Proper validation shown when nothing is selected.");
+            console.log(" Test Case 1 Passed: Proper validation shown when nothing is selected.");
         } else {
-            console.log("❌ Test Case 1 Failed: Validation message incorrect.");
+            console.log(" Test Case 1 Failed: Validation message incorrect.");
         }
 
         // Test Case 2: Only state selected
@@ -29,12 +29,12 @@ async function runWeatherValidationTests() {
 
         const errorText2 = await driver.findElement(By.id('formError')).getText();
         if (errorText2.includes("Please select a city")) {
-            console.log("✅ Test Case 2 Passed: Proper validation shown when only state is selected.");
+            console.log(" Test Case 2 Passed: Proper validation shown when only state is selected.");
         } else {
-            console.log("❌ Test Case 2 Failed: Validation message incorrect.");
+            console.log(" Test Case 2 Failed: Validation message incorrect.");
         }
 
-        // Test Case 3: Only city selected
+
         console.log("\nTest Case 3: Only City Selected");
         await driver.navigate().refresh();
         await driver.wait(until.elementLocated(By.id('checkForecastBtn')), 10000);
@@ -43,12 +43,12 @@ async function runWeatherValidationTests() {
 
         const errorText3 = await driver.findElement(By.id('formError')).getText();
         if (errorText3.includes("Please select a state")) {
-            console.log("✅ Test Case 3 Passed: Proper validation shown when only city is selected.");
+            console.log(" Test Case 3 Passed: Proper validation shown when only city is selected.");
         } else {
-            console.log("❌ Test Case 3 Failed: Validation message incorrect.");
+            console.log(" Test Case 3 Failed: Validation message incorrect.");
         }
 
-        // Test Case 4: State and city reset on page revisit
+
         console.log("\nTest Case 4: Navigate back to Browse and check reset");
         await driver.get('http://localhost:3000/browse');
         await driver.wait(until.elementLocated(By.id('stateDropdown')), 5000);
@@ -57,12 +57,12 @@ async function runWeatherValidationTests() {
         const selectedCity = await driver.findElement(By.id('cityDropdown')).getAttribute('value');
 
         if (!selectedState && !selectedCity) {
-            console.log("✅ Test Case 4 Passed: State and city reset on return.");
+            console.log(" Test Case 4 Passed: State and city reset on return.");
         } else {
-            console.log("❌ Test Case 4 Failed: State and city not reset.");
+            console.log(" Test Case 4 Failed: State and city not reset.");
         }
 
-        // Test Case 5: Valid selection navigates to Forecast
+
         console.log("\nTest Case 5: Valid State and City");
         await driver.navigate().refresh();
         await driver.wait(until.elementLocated(By.id('stateDropdown')), 10000);
@@ -73,9 +73,9 @@ async function runWeatherValidationTests() {
 
         await driver.wait(until.urlContains('/forecast'), 5000);
         const currentUrl = await driver.getCurrentUrl();
-        console.log(currentUrl.includes('/forecast') ? "✅ Test Case 5 Passed: Navigated to Forecast page." : "❌ Test Case 5 Failed: Did not navigate.");
+        console.log(currentUrl.includes('/forecast') ? " Test Case 5 Passed: Navigated to Forecast page." : " Test Case 5 Failed: Did not navigate.");
     } catch (err) {
-        console.log("❌ Test failed: " + err.message);
+        console.log(" Test failed: " + err.message);
     } finally {
         await driver.quit();
     }

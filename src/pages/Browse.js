@@ -13,7 +13,7 @@ function Browse() {
 
 
     useEffect(() => {
-        // Fetch states
+
         fetch('http://localhost:5000/api/states')
             .then(res => res.json())
             .then(data => setStates(data))
@@ -21,19 +21,19 @@ function Browse() {
     }, []);
 
     useEffect(() => {
-        // Fetch cities based on selected state
+
         if (selectedState) {
             fetch(`http://localhost:5000/api/cities?state=${selectedState}`)
                 .then(res => res.json())
                 .then(data => setCities(data))
                 .catch(err => console.error('Failed to fetch cities:', err));
         } else {
-            setCities([]); // Reset cities when no state is selected
+            setCities([]);
         }
     }, [selectedState]);
 
     const handleForecast = () => {
-        // Check if state and city are selected
+
         if (!selectedState && !selectedCity) {
             setError("Please select a state and a city");
         } else if (!selectedState) {
@@ -41,18 +41,18 @@ function Browse() {
         } else if (!selectedCity) {
             setError("Please select a city");
         } else {
-            setError(''); // Clear error if inputs are valid
+            setError('');
             navigate(`/forecast?state=${selectedState}&city=${selectedCity}`);
         }
     };
 
     const handleCityChange = (e) => {
-        // If state is not selected, show error
+
         if (!selectedState) {
             setError("Please select a state first");
-            setSelectedCity(''); // Reset city selection
+            setSelectedCity('');
         } else {
-            setError(''); // Clear error if state is selected
+            setError('');
             setSelectedCity(e.target.value);
         }
     };
@@ -78,7 +78,7 @@ function Browse() {
                     value={selectedState}
                     onChange={e => {
                         setSelectedState(e.target.value);
-                        setError(''); // Clear any previous errors
+                        setError('');
                     }}
                     style={{ padding: '0.5rem', borderRadius: '5px', border: '1px solid #ccc' }}
                 >
