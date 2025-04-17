@@ -1,4 +1,4 @@
-pipeline { 
+pipeline {
     agent any
 
     environment {
@@ -22,6 +22,13 @@ pipeline {
         stage('Build Project') {
             steps {
                 bat 'npm run build'
+            }
+        }
+
+        stage('Run Selenium Tests') {
+            steps {
+                // Ensure tests are run after the build step
+                bat 'node selenium-tests.js'
             }
         }
 
@@ -49,6 +56,8 @@ pipeline {
                         git push origin gh-pages --force
                     """
                 }
+                echo 'Deployed Successfully!'
+                echo 'Visit your project at: https://30Leena.github.io/WeatherDevops/' // This will print the link after successful deployment.
             }
         }
     }
